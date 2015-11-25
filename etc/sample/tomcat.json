@@ -1,0 +1,30 @@
+/*
+ * Tomcat Setting Sample
+ */
+{
+  "interval" : 10,
+  "queries" : [
+
+    // Tomcat Thread Pool
+    {
+      "query" : "Catalina:type=ThreadPool,*",
+      "attributeNames" : [
+        "connectionCount",
+        "maxConnections",
+        "currentThreadCount",
+        "maxThreads"
+      ]
+    },
+
+    // JDBC Connection Pool
+    {
+      "query" : "Catalina:type=DataSource,class=javax.sql.DataSource,*",
+      "attributeNames" : [
+        "maxTotal",
+        "numActive",
+        "maxIdle",
+        "numIdle"
+      ]
+    }
+  ]
+}

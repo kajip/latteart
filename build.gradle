@@ -1,0 +1,38 @@
+group 'jp.co.biglobe'
+version '0.1-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+import javax.tools.ToolProvider
+
+mainClassName = "jp.co.biglobe.isp.monitor.Main"
+
+dependencies {
+
+    compile "org.projectlombok:lombok:1.16.6"
+
+    // Attach API で利用. $JAVA_HOME/lib/tools.jar の読込
+    compile (files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs()))
+
+    compile "org.slf4j:slf4j-api:1.7.13"
+    runtime "org.slf4j:slf4j-simple:1.7.13"
+
+    compile "commons-cli:commons-cli:1.3.1"
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
+
+    testCompile "junit:junit:4.11"
+}
+
+run {
+    if (project.hasProperty('args')) {    // "args" というプロパティが渡されていたら
+        args project.args.split('\\s+')   // 空白文字で split して、 run タスクの args オプションにセットする
+    }
+}

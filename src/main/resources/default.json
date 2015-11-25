@@ -1,0 +1,13 @@
+{
+  "interval" : 10,
+  "queries" : [
+
+    // Memory Pool
+    {
+      "query" : "java.lang:type=MemoryPool,*",
+      "attributeNames" : [
+        "Usage"
+      ]
+    }
+  ]
+}
