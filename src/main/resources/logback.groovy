@@ -1,3 +1,4 @@
+
 // 標準出力
 appender("STDOUT", ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
@@ -13,7 +14,8 @@ appender("FILE", RollingFileAppender) {
         Pattern = "%m%n"
     }
     rollingPolicy(TimeBasedRollingPolicy) {
-        FileNamePattern = "${WEBAPP_DIR}/log/translator-%d{yyyy-MM}.zip"
+        FileNamePattern = "${WEBAPP_DIR}/log/java-monitor-%d{yyyy-MM-dd}.gz"
+        maxHistory = 30
     }
 }
 // デフォルト

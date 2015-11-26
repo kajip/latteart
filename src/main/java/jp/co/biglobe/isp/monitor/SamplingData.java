@@ -40,8 +40,8 @@ public class SamplingData {
 
     public Map<String,Object> asMap() {
         Map<String,Object> map = new LinkedHashMap<>();
-        map.put("objectName", objectName.getCanonicalName());
-        map.put("domain", objectName.getDomain());
+        map.put(OutputData.OBJECT_NAME_KEY, objectName.getCanonicalName());
+        map.put(OutputData.DOMAIN_KEY, objectName.getDomain());
         map.putAll(objectName.getKeyPropertyList());
 
         for(Attribute attribute : attributes.asList()) {
@@ -63,7 +63,7 @@ public class SamplingData {
     public Map<String,Object> parseCompositeDataSupport(CompositeDataSupport compositeDataSupport) {
         return compositeDataSupport.getCompositeType().keySet().stream()
                 .map(key -> new AbstractMap.SimpleImmutableEntry(key, compositeDataSupport.get(key)))
-                .collect(Collector.<Map.Entry,Map>of(
+                .collect(Collector.<Map.Entry, Map>of(
                         () -> new HashMap<>(),
                         (map, entry) -> map.put(entry.getKey(), entry.getValue()),
                         (map01, map02) -> {

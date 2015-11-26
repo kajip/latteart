@@ -45,8 +45,8 @@ public class SamplingDataList {
     private Map<String,Object> format(SamplingData samplingData) {
 
         Map<String,Object> map = new LinkedHashMap<>();
-        map.put("samplingTime", samplingTime.toEpochMilli());
-        map.put("hostname", hostname);
+        map.put(OutputData.SAMPLING_TIME_KEY, samplingTime.toEpochMilli());
+        map.put(OutputData.HOSTNAME_KEY, hostname);
         map.putAll(samplingData.asMap());
 
         return map;
