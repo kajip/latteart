@@ -3,8 +3,6 @@ package jp.co.biglobe.isp.monitor;
 import jp.co.biglobe.isp.monitor.spi.outbound.LoggingOutput;
 import org.apache.commons.cli.*;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
