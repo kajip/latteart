@@ -2,6 +2,9 @@ package jp.co.biglobe.isp.monitor;
 
 import lombok.AllArgsConstructor;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 public class OutputData {
 
@@ -14,4 +17,11 @@ public class OutputData {
 
     public static final String  OBJECT_NAME_KEY = "objectName";
 
+    private final Map<String,Object>  outputData;
+
+    public String printLTSV() {
+        return outputData.entrySet().stream()
+                .map(entry -> String.format("%s:%s", entry.getKey(), entry.getValue()))
+                .collect(Collectors.joining("\t"));
+    }
 }
