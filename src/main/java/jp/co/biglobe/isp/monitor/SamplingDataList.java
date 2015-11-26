@@ -3,9 +3,7 @@ package jp.co.biglobe.isp.monitor;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Instant;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 抽出データ集合
@@ -43,12 +41,6 @@ public class SamplingDataList {
     }
 
     private OutputData format(SamplingData samplingData) {
-
-        Map<String,Object> map = new LinkedHashMap<>();
-        map.put(OutputData.SAMPLING_TIME_KEY, samplingTime.toEpochMilli());
-        map.put(OutputData.HOSTNAME_KEY, hostname);
-        map.putAll(samplingData.asMap());
-
-        return new OutputData(map);
+        return new OutputData(samplingTime, hostname, samplingData);
     }
 }
