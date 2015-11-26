@@ -58,17 +58,16 @@ public class Main {
         }
 
         // プロセスID未指定ならhelp情報を表示して終了
-        if (cl.getArgs().length < 0) {
+        if (cl.getArgs().length <= 0) {
             printHelp(options);
         }
 
         return cl;
     }
 
-    // @todo コマンド名を決める
     private static void printHelp(Options options) {
         HelpFormatter helpFormatter = new HelpFormatter();
-        helpFormatter.printHelp("java -jar [JAVA Options] aaa.jar [Options ...] pid", options);
+        helpFormatter.printHelp("java-monitor [Options ...] pid", options);
         System.exit(0);
     }
 }

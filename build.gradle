@@ -6,7 +6,7 @@ apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
-
+// lombok 等のため、provided 定義を追加
 configurations {
     provided
 }

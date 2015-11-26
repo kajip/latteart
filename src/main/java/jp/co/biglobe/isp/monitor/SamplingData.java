@@ -6,7 +6,7 @@ import lombok.ToString;
 import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.ObjectName;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -35,10 +35,10 @@ public class SamplingData {
 
 
     public Map<String,Object> asMap() {
-
-        Map<String,Object> map = new HashMap<>(objectName.getKeyPropertyList());
+        Map<String,Object> map = new LinkedHashMap<>();
         map.put("objectName", objectName.getCanonicalName());
         map.put("domain", objectName.getDomain());
+        map.putAll(objectName.getKeyPropertyList());
 
         for(Attribute attribute : attributes.asList()) {
             map.put(attribute.getName(), attribute.getValue());
