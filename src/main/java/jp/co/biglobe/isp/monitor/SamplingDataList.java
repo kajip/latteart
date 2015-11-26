@@ -2,7 +2,7 @@ package jp.co.biglobe.isp.monitor;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
  */
 public class SamplingDataList {
 
-    private final Instant samplingTime;
+    private final ZonedDateTime samplingTime;
 
     private final String hostname;
 
     private final List<SamplingData> samplingDatas;
 
     public SamplingDataList(List<SamplingData> samplingDatas) {
-        this.samplingTime = Instant.now();
+        this.samplingTime = ZonedDateTime.now();
         this.hostname = lookupHostname();
         this.samplingDatas = samplingDatas;
     }

@@ -5,7 +5,8 @@ import javax.management.AttributeList;
 import javax.management.ObjectName;
 import javax.management.openmbean.CompositeDataSupport;
 import javax.management.openmbean.CompositeType;
-import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,18 +22,19 @@ public class OutputData {
 
     public static final String  OBJECT_NAME_KEY = "objectName";
 
+    static final DateTimeFormatter dateTimeformatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+
     private final Map<String,Object>  outputData;
 
 
-    public OutputData(Instant samplingTime, String hostname, SamplingData samplingData) {
+    public OutputData(ZonedDateTime samplingTime, String hostname, SamplingData samplingData) {
         Map<String,Object> map = new LinkedHashMap<>();
-        map.put(SAMPLING_TIME_KEY, samplingTime.toEpochMilli());
+        map.put(SAMPLING_TIME_KEY, samplingTime.format(dateTimeformatter));
         map.put(HOSTNAME_KEY, hostname);
         map.putAll(parseSamplingData(samplingData));
 
         this.outputData = Collections.unmodifiableMap(map);
     }
-
 
     private Map<String,Object> parseSamplingData(SamplingData samplingData) {
 
