@@ -46,6 +46,11 @@ applicationDistribution.from("etc") {
     into "etc"
 }
 
+distTar {
+    compression = Compression.GZIP
+    extension = 'tar.gz'
+}
+
 run {
     // クラスパスに tools.jar を追加
     classpath += configurations.provided
