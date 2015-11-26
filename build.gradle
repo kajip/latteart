@@ -6,20 +6,53 @@ apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main.compileClasspath += configurations.provided
+    test.compileClasspath += configurations.provided
+    test.runtimeClasspath += configurations.provided
+}
+
+
+/* == 'application' plugin Setting == */
+
+mainClassName = "jp.co.biglobe.isp.monitor.Main"
+
+// 起動スクリプトに JAVA_HOME/lib/tools.jar を追加
+startScripts {
+    doLast {
+        def windowsScriptFile = file getWindowsScript()
+        def unixScriptFile    = file getUnixScript()
+        windowsScriptFile.text = windowsScriptFile.text.replace('CLASSPATH=%APP_HOME%\\lib', 'CLASSPATH=%JAVA_HOME%\\lib\\tools.jar;%APP_HOME%\\lib')
+        unixScriptFile.text  = unixScriptFile.text.replace('CLASSPATH=$APP_HOME/lib', 'CLASSPATH=$JAVA_HOME/lib/tools.jar:$APP_HOME/lib')
+    }
+}
+
+// run タスクにコマンド引数を渡す設定
+// 使い方： gradle run -Pargs="-c http://localhost:8080/config.json 1234"
+run {
+    if (project.hasProperty('args')) {
+        args project.args.split('\\s+')
+    }
+}
+
+
 repositories {
     mavenCentral()
 }
 
 import javax.tools.ToolProvider
 
-mainClassName = "jp.co.biglobe.isp.monitor.Main"
-
 dependencies {
 
-    compile "org.projectlombok:lombok:1.16.6"
+    provided "org.projectlombok:lombok:1.16.6"
 
     // Attach API で利用. $JAVA_HOME/lib/tools.jar の読込
-    compile (files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs()))
+    provided (files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs()))
 
     compile "org.slf4j:slf4j-api:1.7.13"
     runtime "org.slf4j:slf4j-simple:1.7.13"
@@ -29,10 +62,4 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
 
     testCompile "junit:junit:4.11"
-}
-
-run {
-    if (project.hasProperty('args')) {    // "args" というプロパティが渡されていたら
-        args project.args.split('\\s+')   // 空白文字で split して、 run タスクの args オプションにセットする
-    }
 }

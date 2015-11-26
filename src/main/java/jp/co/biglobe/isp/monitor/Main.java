@@ -3,8 +3,11 @@ package jp.co.biglobe.isp.monitor;
 import jp.co.biglobe.isp.monitor.spi.outbound.LoggingOutput;
 import org.apache.commons.cli.*;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +23,9 @@ public class Main {
         CommandLine cl = parseCommandLine(args);
 
         // 設定ファイルのパスを取得
-        Config config = Config.load();
+        Config config = Optional.ofNullable(cl.getOptionValue("c"))
+                .map(Config::load)
+                .orElse(Config.load());
 
         // JMXServer に接続
         JMXServerBuilder jmxServerBuilder = JMXServerBuilder.getInstance(cl.getArgs());
