@@ -3,6 +3,7 @@ version '0.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'application'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 
@@ -17,6 +18,11 @@ sourceSets {
     test.runtimeClasspath += configurations.provided
 }
 
+idea {
+    module {
+        scopes.PROVIDED.plus += [configurations.provided]
+    }
+}
 
 /* == 'application' plugin Setting == */
 

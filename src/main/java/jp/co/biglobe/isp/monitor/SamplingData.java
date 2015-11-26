@@ -6,8 +6,12 @@ import lombok.ToString;
 import javax.management.Attribute;
 import javax.management.AttributeList;
 import javax.management.ObjectName;
+import javax.management.openmbean.CompositeDataSupport;
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collector;
 
 /**
  * 抽出データ
@@ -41,9 +45,32 @@ public class SamplingData {
         map.putAll(objectName.getKeyPropertyList());
 
         for(Attribute attribute : attributes.asList()) {
-            map.put(attribute.getName(), attribute.getValue());
+            if(attribute.getValue() instanceof  CompositeDataSupport) {
+                map.putAll(parseCompositeDataSupport((CompositeDataSupport) attribute.getValue()));
+            } else {
+                map.put(attribute.getName(), attribute.getValue());
+            }
         }
 
         return map;
+    }
+
+    /**
+     * CompositeDataSupport を解析
+     * @param compositeDataSupport
+     * @return
+     */
+    public Map<String,Object> parseCompositeDataSupport(CompositeDataSupport compositeDataSupport) {
+        return compositeDataSupport.getCompositeType().keySet().stream()
+                .map(key -> new AbstractMap.SimpleImmutableEntry(key, compositeDataSupport.get(key)))
+                .collect(Collector.<Map.Entry,Map>of(
+                        () -> new HashMap<>(),
+                        (map, entry) -> map.put(entry.getKey(), entry.getValue()),
+                        (map01, map02) -> {
+                            map01.putAll(map02);
+                            return map01;
+                        },
+                        Collector.Characteristics.CONCURRENT
+                ));
     }
 }
