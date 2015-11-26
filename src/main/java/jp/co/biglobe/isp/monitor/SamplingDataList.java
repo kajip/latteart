@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 抽出データ集合
@@ -34,10 +35,10 @@ public class SamplingDataList {
         return samplingDatas.size();
     }
 
-    public void send(Output output) {
-        samplingDatas.stream()
+    public OutputDataList format() {
+        return new OutputDataList(samplingDatas.stream()
                 .map(this::format)
-                .forEach(output::write);
+                .collect(Collectors.toList()));
     }
 
     private OutputData format(SamplingData samplingData) {

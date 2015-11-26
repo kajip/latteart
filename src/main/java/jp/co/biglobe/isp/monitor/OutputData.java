@@ -26,12 +26,13 @@ public class OutputData {
 
     public OutputData(Instant samplingTime, String hostname, SamplingData samplingData) {
         Map<String,Object> map = new LinkedHashMap<>();
-        map.put(SAMPLING_TIME_KEY, samplingTime);
+        map.put(SAMPLING_TIME_KEY, samplingTime.toEpochMilli());
         map.put(HOSTNAME_KEY, hostname);
         map.putAll(parseSamplingData(samplingData));
 
         this.outputData = Collections.unmodifiableMap(map);
     }
+
 
     private Map<String,Object> parseSamplingData(SamplingData samplingData) {
 
@@ -100,15 +101,7 @@ public class OutputData {
 
     public String printLTSV() {
         return outputData.entrySet().stream()
-                .map(this::formatDateTime)
                 .map(entry -> String.format("%s:%s", entry.getKey(), entry.getValue()))
                 .collect(Collectors.joining("\t"));
-    }
-
-    private Map.Entry<String,Object> formatDateTime(Map.Entry<String,Object> source) {
-        if (SAMPLING_TIME_KEY.equals(source.getKey())) {
-            return new AbstractMap.SimpleImmutableEntry<>(SAMPLING_TIME_KEY, ((Instant)source.getValue()).toEpochMilli());
-        }
-        return source;
     }
 }

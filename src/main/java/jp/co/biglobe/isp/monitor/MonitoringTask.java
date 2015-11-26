@@ -28,7 +28,8 @@ public class MonitoringTask implements Runnable {
         logger.debug("start");
 
         SamplingDataList samplingDataList = targetList.sampling(jmxServer);
-        outputs.forEach(samplingDataList::send);
+        OutputDataList outputDataList = samplingDataList.format();
+        outputs.forEach(outputDataList::send);
 
         logger.debug("end");
     }
