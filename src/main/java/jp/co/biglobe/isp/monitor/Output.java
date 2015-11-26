@@ -1,7 +1,7 @@
 package jp.co.biglobe.isp.monitor;
 
-import java.time.Instant;
+import java.util.Map;
 
 public interface Output {
-    void write(Instant samplingTime, String hostname, SamplingData samplingData);
+    void write(Map<String,Object> outputData);
 }

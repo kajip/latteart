@@ -32,9 +32,12 @@ startScripts {
     }
 }
 
-// run タスクにコマンド引数を渡す設定
-// 使い方： gradle run -Pargs="-c http://localhost:8080/config.json 1234"
 run {
+    // クラスパスに tools.jar を追加
+    classpath += configurations.provided
+
+    // run タスクにコマンド引数を渡す設定
+    // 使い方： gradle run -Pargs="-c http://localhost:8080/config.json 1234"
     if (project.hasProperty('args')) {
         args project.args.split('\\s+')
     }
