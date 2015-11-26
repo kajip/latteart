@@ -1,9 +1,9 @@
-group 'jp.co.biglobe'
-version '0.1-SNAPSHOT'
-
 apply plugin: 'groovy'
 apply plugin: 'application'
 apply plugin: 'idea'
+
+group 'jp.co.biglobe'
+version '0.1-SNAPSHOT'
 
 sourceCompatibility = 1.8
 
@@ -28,14 +28,22 @@ idea {
 
 mainClassName = "jp.co.biglobe.isp.monitor.Main"
 
-// 起動スクリプトに JAVA_HOME/lib/tools.jar を追加
+// 起動スクリプトに $JAVA_HOME/lib/tools.jar, $APP_HOME/conf を追加
 startScripts {
     doLast {
         def windowsScriptFile = file getWindowsScript()
         def unixScriptFile    = file getUnixScript()
-        windowsScriptFile.text = windowsScriptFile.text.replace('CLASSPATH=%APP_HOME%\\lib', 'CLASSPATH=%JAVA_HOME%\\lib\\tools.jar;%APP_HOME%\\lib')
-        unixScriptFile.text  = unixScriptFile.text.replace('CLASSPATH=$APP_HOME/lib', 'CLASSPATH=$JAVA_HOME/lib/tools.jar:$APP_HOME/lib')
+        windowsScriptFile.text = windowsScriptFile.text.replace('CLASSPATH=%APP_HOME%\\lib', 'CLASSPATH=%JAVA_HOME%\\lib\\tools.jar;%APP_HOME%\\conf;%APP_HOME%\\lib')
+        unixScriptFile.text  = unixScriptFile.text.replace('CLASSPATH=$APP_HOME/lib', 'CLASSPATH=$JAVA_HOME/lib/tools.jar:$APP_HOME/conf:$APP_HOME/lib')
     }
+}
+
+// 設定ファイルを移動
+applicationDistribution.from("src/main/resources") {
+    into "conf"
+}
+applicationDistribution.from("etc") {
+    into "etc"
 }
 
 run {
@@ -57,11 +65,10 @@ repositories {
 import javax.tools.ToolProvider
 
 dependencies {
-
-    provided "org.projectlombok:lombok:1.16.6"
-
     // Attach API で利用. $JAVA_HOME/lib/tools.jar の読込
     provided (files(((URLClassLoader) ToolProvider.getSystemToolClassLoader()).getURLs()))
+
+    provided "org.projectlombok:lombok:1.16.6"
 
     compile "org.slf4j:slf4j-api:1.7.13"
 
