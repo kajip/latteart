@@ -3,13 +3,13 @@ package jp.co.biglobe.isp.monitor;
 import jp.co.biglobe.isp.monitor.spi.outbound.LoggingOutput;
 import org.apache.commons.cli.*;
 
+import javax.management.ObjectName;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 
 public class Main {
 
@@ -20,14 +20,19 @@ public class Main {
         // コマンドラインパラメータの解析
         CommandLine cl = parseCommandLine(args);
 
+        // JMXServer に接続
+        JMXServerBuilder jmxServerBuilder = JMXServerBuilder.getInstance(cl.getArgs());
+        JMXServer jmxServer = jmxServerBuilder.createJMXServer();
+
+        // ObjectNameリストの表示
+        if (cl.hasOption('l')) {
+            printObjectNameList(jmxServer);
+        }
+
         // 設定ファイルのパスを取得
         Config config = Optional.ofNullable(cl.getOptionValue("c"))
                 .map(Config::load)
                 .orElse(Config.load());
-
-        // JMXServer に接続
-        JMXServerBuilder jmxServerBuilder = JMXServerBuilder.getInstance(cl.getArgs());
-        JMXServer jmxServer = jmxServerBuilder.createJMXServer();
 
         // 出力先を取得
         // @todo 出力先の取得方法（Spring Boot使うか。）
@@ -40,11 +45,11 @@ public class Main {
         scheduler.scheduleAtFixedRate(monitor, 0L, config.interval, TimeUnit.SECONDS);
     }
 
-
     private static CommandLine parseCommandLine(String[] args) throws Exception {
 
         Options options = new Options();
         options.addOption("h", "help", false, "print this message.");
+        options.addOption("l", "list", false, "print all MBean name list");
         options.addOption("c", "config", true, "config json file url.");
 
         DefaultParser defaultParser = new DefaultParser();
@@ -66,6 +71,16 @@ public class Main {
     private static void printHelp(Options options) {
         HelpFormatter helpFormatter = new HelpFormatter();
         helpFormatter.printHelp("java-monitor [Options ...] pid", options);
+
+        System.exit(0);
+    }
+
+    private static void printObjectNameList(JMXServer jmxServer) {
+        jmxServer.findAllObjectName().stream()
+            .map(ObjectName::getCanonicalName)
+            .sorted()
+            .forEach(System.out::println);
+
         System.exit(0);
     }
 }
