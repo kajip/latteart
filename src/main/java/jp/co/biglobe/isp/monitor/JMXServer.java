@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.management.*;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -22,6 +24,30 @@ public class JMXServer implements Directory,Monitor {
             throw new RuntimeException(e);
 
         } catch (MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Set<MBeanAttributeInfo> findReadableAttributeInfoByObjectName(String objectName) {
+        try {
+            MBeanInfo mBeanInfo = mBeanServerConnection.getMBeanInfo(new ObjectName(objectName));
+            return Arrays.asList(mBeanInfo.getAttributes()).stream()
+                    .filter(MBeanAttributeInfo::isReadable)
+                    .collect(Collectors.toSet());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        } catch (MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+
+        } catch (IntrospectionException e) {
+            throw new RuntimeException(e);
+
+        } catch (ReflectionException e) {
+            throw new RuntimeException(e);
+
+        } catch (InstanceNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
