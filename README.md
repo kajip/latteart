@@ -19,9 +19,22 @@
   * C++ や Java スタイルのコメントが使えます( /* */、// など）
   * シェルスクリプトスタイル（行の先頭に #）も使えます
 
-### Root Object
+### 例。5分間隔でメモリ情報を取得する
 
-  * interval、queries の２つの属性を持ちます
+```json
+{
+  "interval" : 300,
+  "queries" : [
+    // Memory Pool
+    {
+      "query" : "java.lang:type=MemoryPool,*",
+      "attributeNames" : [
+        "Usage"
+      ]
+    }
+  ]
+}
+```
 
 #### interval 属性
 
@@ -47,23 +60,6 @@
 #### attributes 属性
 
   * 採取する情報の属性を文字列のリストで指定します
-
-### 例。5分間隔でメモリ情報を取得する
-
-```json
-{
-  "interval" : 300,
-  "queries" : [
-    // Memory Pool
-    {
-      "query" : "java.lang:type=MemoryPool,*",
-      "attributeNames" : [
-        "Usage"
-      ]
-    }
-  ]
-}
-```
 
 ## FAQ
 
