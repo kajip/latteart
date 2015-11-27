@@ -14,6 +14,18 @@ public class JMXServer implements Directory,Monitor {
 
     private final MBeanServerConnection mBeanServerConnection;
 
+    public Set<ObjectName> findAllObjectName() {
+        try {
+            return mBeanServerConnection.queryNames(new ObjectName("*:*"), null);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+        } catch (MalformedObjectNameException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public List<Target> findTarget(Query query) {
         try {
