@@ -10,7 +10,12 @@
 
 ## 使い方
 
-  Now Printing...
+  * [インストール媒体]()を展開します
+  * インストール媒体を展開したディレクトリに移動します
+  * conf/monitor.json ファイルを修正し、採取情報を指定します
+  * 下記コマンドを実行します。<pid> は、観測対象JavaVMのプロセスIDです
+  
+  ```bin/java-monitor <pid>```
 
 ## conf/monitor.json ファイル
 

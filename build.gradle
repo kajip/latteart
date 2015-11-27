@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 group 'jp.co.biglobe'
-version '0.1-SNAPSHOT'
+version '0.1'
 
 sourceCompatibility = 1.8
 
@@ -39,6 +39,8 @@ startScripts {
 }
 
 // 設定ファイルを移動
+applicationDistribution.from("README.md") {}
+
 applicationDistribution.from("src/main/resources") {
     into "conf"
 }
