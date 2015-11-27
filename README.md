@@ -17,6 +17,12 @@
   
   ```bin/java-monitor <pid>```
 
+### コマンドオプション
+
+  * -h ヘルプメッセージを表示
+  * -l MBeanのObjectName一覧の表示
+  * -c <url> 指定したURLから設定ファイルを読み込む。ローカルファイル、HTTP(S)が利用できる（はず）
+
 ## conf/monitor.json ファイル
 
   * jsonフォーマットの設定ファイルです
