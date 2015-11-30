@@ -19,7 +19,7 @@
     {
       "query" : "Catalina:type=DataSource,class=javax.sql.DataSource,*",
       "attributeNames" : [
-        "maxTotal",
+        "maxActive",
         "numActive",
         "maxIdle",
         "numIdle"
