@@ -1,11 +1,8 @@
 package jp.co.biglobe.isp.monitor;
 
-import jp.co.biglobe.isp.monitor.spi.outbound.LoggingOutput;
 import org.apache.commons.cli.*;
 
 import javax.management.ObjectName;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -38,15 +35,18 @@ public class Main {
                 .map(Config::load)
                 .orElse(Config.load());
 
-        // 出力先を取得
-        // @todo 出力先の取得方法（Spring Boot使うか。）
-        List<Output> outputs = Arrays.asList(
-                new LoggingOutput()
-        );
+        // モニタリングサービス生成
+        MonitoringService monitoringService = new MonitoringService(jmxServer, config.queries, config.outputs);
+
+        // 定期実行オプションの取得
+        Optional<Long> interval = Optional.ofNullable(cl.getOptionValue("i")).map(Long::parseLong);
 
         // モニタリング開始
-        MonitoringTask monitor = new MonitoringTask(jmxServer, config.queries, outputs);
-        scheduler.scheduleAtFixedRate(monitor, 0L, config.interval, TimeUnit.SECONDS);
+        if (interval.isPresent()) {
+            scheduler.scheduleAtFixedRate(() -> monitoringService.run(), 0L, interval.get(), TimeUnit.SECONDS);
+        } else {
+            monitoringService.run();
+        }
     }
 
     private static CommandLine parseCommandLine(String[] args) throws Exception {
@@ -56,6 +56,7 @@ public class Main {
         options.addOption("l", "list", false, "print all MBean name list");
         options.addOption("a", "attr", true, "print all readable attribute name list");
         options.addOption("c", "config", true, "config json file url.");
+        options.addOption("i", "interval", true, "interval second");
 
         DefaultParser defaultParser = new DefaultParser();
         CommandLine cl = defaultParser.parse(options, args, true);

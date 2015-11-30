@@ -5,18 +5,17 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public class MonitoringTask implements Runnable {
+public class MonitoringService {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-
     private final JMXServer jmxServer;
-
-    private final List<Output> outputs;
 
     private TargetList targetList;
 
-    public MonitoringTask(JMXServer jmxServer, QueryList queryList, List<Output> outputs) {
+    private final List<Output> outputs;
+
+    public MonitoringService(JMXServer jmxServer, QueryList queryList, List<Output> outputs) {
         this.jmxServer = jmxServer;
         this.targetList = queryList.findTargets(jmxServer);
         this.outputs = outputs;
@@ -33,4 +32,5 @@ public class MonitoringTask implements Runnable {
 
         logger.debug("end");
     }
+
 }
