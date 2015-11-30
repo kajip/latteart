@@ -1,6 +1,5 @@
 package jp.co.biglobe.isp.monitor;
 
-import jp.co.biglobe.isp.monitor.Config;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,7 +12,7 @@ public class ConfigTest {
 
         Config config = Config.load();
 
-        assertThat(config.interval, is(10L));
         assertThat(config.queries.size(), is(1));
+        assertThat(config.outputs.size(), is(1));
     }
 }

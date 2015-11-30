@@ -2,7 +2,6 @@
  * Tomcat Setting Sample
  */
 {
-  "interval" : 10,
   "queries" : [
 
     // Tomcat Thread Pool
