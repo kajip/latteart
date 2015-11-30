@@ -20,8 +20,10 @@
 ### コマンドオプション
 
   * -h ヘルプメッセージを表示
-  * -l MBeanのObjectName一覧の表示
+  * -l MBeanのObjectNameの一覧表示
+  * -a <objectName> 取得可能な属性の一覧表示
   * -c <url> 指定したURLから設定ファイルを読み込む。ローカルファイル、HTTP(S)が利用できる（はず）
+  * -i <interval> MBeanを取得する間隔を秒で指定
 
 ## conf/monitor.json ファイル
 
@@ -34,7 +36,6 @@
 
 ```json
 {
-  "interval" : 300,
   "queries" : [
     // Memory Pool
     {
@@ -46,10 +47,6 @@
   ]
 }
 ```
-
-#### interval 属性
-
-  * 情報を採取する間隔を秒単位で指定します。
 
 #### queries 属性
 
@@ -80,7 +77,11 @@
 
   * JMXの属性はどうやって調べるといいのかな？
   
-    JDK に標準で付属する jconsoleというGUIツールを使うと JMXのツリーにアクセスできます。
+    ~~JDK に標準で付属する jconsoleというGUIツールを使うと JMXのツリーにアクセスできます。~~
+
+    -  -l で取得可能なMBeanのObjectName一覧が表示できるようになりました。
+
+    -  -a objectName で取得可能な属性一覧が表示できるようになりました。
 
   * ファイルの出力先を変えたい。
 
