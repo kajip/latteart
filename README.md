@@ -1,4 +1,4 @@
-# Java Monitor
+# LatteArt
 
 ## これは何？
 
@@ -15,7 +15,7 @@
   * conf/monitor.json ファイルを修正し、採取情報を指定します
   * 下記コマンドを実行します。<pid> は、観測対象JavaVMのプロセスIDです
   
-  ```bin/java-monitor <pid>```
+  ```bin/latteart <pid>```
 
 ### コマンドオプション
 
@@ -89,9 +89,9 @@
 
   * MBean毎に採取間隔を変えたい。
   
-    Bean毎にmonitor.json を用意し、MBean毎に java-monitor を起動します。
+    Bean毎にmonitor.json を用意し、MBean毎に LatteArt を起動します。
     読込む monitor.json は、-c オプションを使って指定します。このとき、ファイル名は URL形式で指定します。
 
     ```
-    java-monitor -c file:///etc/monitor-memory.json 1234
+    latteart -c file:///etc/monitor-memory.json 1234
     ```
