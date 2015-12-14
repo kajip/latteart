@@ -22,4 +22,4 @@ appender("FILE", RollingFileAppender) {
 root(WARN, ["STDOUT"])
 
 
-logger("jp.co.biglobe.isp.monitor.spi.outbound.LoggingOutput", INFO, ["FILE"], false)
+logger("org.kajip.latteart.spi.outbound.LoggingOutput", INFO, ["FILE"], false)

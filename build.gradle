@@ -2,7 +2,7 @@ apply plugin: 'groovy'
 apply plugin: 'application'
 apply plugin: 'idea'
 
-group 'jp.co.biglobe'
+group 'org.kajip'
 version '0.2'
 
 sourceCompatibility = 1.8
@@ -26,7 +26,7 @@ idea {
 
 /* == 'application' plugin Setting == */
 
-mainClassName = "jp.co.biglobe.isp.monitor.Main"
+mainClassName = "org.kajip.latteart.LatteArt"
 
 // 起動スクリプトに $JAVA_HOME/lib/tools.jar, $APP_HOME/conf を追加
 startScripts {
