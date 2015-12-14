@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 group 'org.kajip'
-version '0.2'
+version '0.3'
 
 sourceCompatibility = 1.8
 
