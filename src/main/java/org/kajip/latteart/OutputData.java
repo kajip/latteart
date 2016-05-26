@@ -22,7 +22,8 @@ public class OutputData {
 
     public static final String  OBJECT_NAME_KEY = "objectName";
 
-    static final DateTimeFormatter dateTimeformatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+//    static final DateTimeFormatter dateTimeformatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+    static final DateTimeFormatter dateTimeformatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSSxxx");
 
     private final Map<String,Object>  outputData;
 

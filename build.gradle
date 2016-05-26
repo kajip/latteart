@@ -3,7 +3,7 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 group 'org.kajip'
-version '0.3'
+version '0.4'
 
 sourceCompatibility = 1.8
 
@@ -77,14 +77,13 @@ dependencies {
 
     provided "org.projectlombok:lombok:1.16.6"
 
-    compile "org.slf4j:slf4j-api:1.7.13"
-
-    runtime 'ch.qos.logback:logback-classic:1.1.3'
     compile 'org.codehaus.groovy:groovy-all:2.4.5'
 
-    compile "commons-cli:commons-cli:1.3.1"
+    compile "org.slf4j:slf4j-api:1.7.13"
+    runtime 'ch.qos.logback:logback-classic:1.1.3'
 
+    compile "commons-cli:commons-cli:1.3.1"
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
 
-    testCompile "junit:junit:4.11"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 }
